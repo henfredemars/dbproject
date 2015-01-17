@@ -16,6 +16,20 @@ express: {
     }
 },
 
+//jslint
+jslint: {
+  server: {
+    src: ['*.js'],
+    directives: {
+      node: true,
+      todo: true
+    },
+    options: {
+      edition: 'latest'
+    }
+  }
+},
+
 //Keep an eye out for changes
 watch: {
     all: {
@@ -36,6 +50,7 @@ open: {
 grunt.registerTask('test', [
     'express',
     'open',
-    'watch'
+    'watch',
+    'jslint'
     ]);
 };
