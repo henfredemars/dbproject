@@ -2,7 +2,7 @@
   "name": "dbproject",
   "version": "1.0.0",
   "description": "Oracle DB Class Project for Relational Databases",
-  "main": "index.js",
+  "main": "app.js",
   "private": true,
   "scripts": {
     "test": "echo \"No test command defined yet\""
@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/henfredemars/dbproject/issues"
   },
-  "homepage": "https://github.com/henfredemars/dbproject"
+  "homepage": "https://github.com/henfredemars/dbproject",
+  "dependencies": {
+    "express": "^4.11.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5"
+  }
 }
