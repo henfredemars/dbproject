@@ -25,7 +25,7 @@ jshint: {
 //Keep an eye out for changes
 watch: {
     all: {
-            files: '**/*.html',
+            files: ['**/*.html','**/*.js'],
             options: {
               livereload: true
         }
