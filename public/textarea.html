@@ -7,9 +7,11 @@
 
 <BODY>
 
-<div ng-app="">
+<div ng-app="" ng-init="firstNameAndText='James bound with ng-init'">
  	<p>Name: <input type="text" ng-model="name"></p>
  	<p ng-bind="name"></p>
+	<p ng-bind="firstNameAndText"></p>
+	<p> 2 + 2 = {{2 + 2}} </p>
 </div>
 
 </BODY>
