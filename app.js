@@ -5,7 +5,7 @@ var app = express();
 
 //Routes
 app.get('/', function (req, res) {
-  res.send('Hello World!');
+  res.send('Hello World! This is an expressjs route!');
 });
 
 app.use(express.static(__dirname + '/public'));
