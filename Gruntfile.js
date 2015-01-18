@@ -42,7 +42,7 @@ watch: {
 
 open: {
     all: {
-        path: 'http://localhost:3000/hello.html'
+        path: 'http://localhost:3000/index.html'
     }
 }
 });
