@@ -16,18 +16,10 @@ express: {
     }
 },
 
-//jslint
-jslint: {
-  server: {
-    src: ['*.js'],
-    directives: {
-      node: true,
-      todo: true
-    },
-    options: {
-      edition: 'latest'
-    }
-  }
+//jshint
+jshint: {
+  files: ['*.js',
+    'public/controllers/*.js']
 },
 
 //Keep an eye out for changes
@@ -48,9 +40,9 @@ open: {
 });
 
 grunt.registerTask('test', [
+    'jshint',
     'express',
     'open',
-    'watch',
-    'jslint'
+    'watch'
     ]);
 };
