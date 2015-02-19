@@ -21,7 +21,7 @@ public interface DataSampleInterface {
 	public double getRainfall();
 	public Calendar getDate();
 	
-	//BE CAREFUL the you use new Calendar instances for each DataSample
+	//BE CAREFUL that you use new Calendar instances for each DataSample
 	
 	public DataStatus checkSample();
 
