@@ -7,7 +7,7 @@ import java.util.Calendar;
 
 import org.junit.Test;
 
-//Stub
+//Single data point from one station at one hour
 public class DataSample implements DataSampleInterface, Serializable {
 	
 	private static final long serialVersionUID = 0L;
