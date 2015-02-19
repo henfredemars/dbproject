@@ -128,13 +128,15 @@ public class Util {
 	@Test
 	public void testFileIO() {
 		ArrayList<DataSample> data = new ArrayList<DataSample>();
-		data.add(new DataSample());
+		DataSample ds = new DataSample();
+		data.add(ds);
 		writeFile(data);
 		File file = new File(System.getProperty("user.dir")+File.separator+"samples.dat");
-		assertEquals(file.exists(),true);
-		readFile();
+		assertTrue(file.exists());
+		ArrayList<DataSample> ands = readFile();
+		assertTrue(ands.get(0).equals(ds));
 		deleteIfExists("samples.dat");
-		assertEquals(file.exists(),false);
+		assertFalse(file.exists());
 	}
 
 }
