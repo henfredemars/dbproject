@@ -22,7 +22,7 @@ public class StationLocator {
 	
 	public int[] getLatLon(String stationid) {
 		String[] s = lookupTable.get(stationid);
-		int[] res = {Integer.valueOf(s[0]),Integer.valueOf(s[1])};
+		int[] res = {Double.valueOf(s[0]),Double.valueOf(s[1])};
 		return res;
 	}
 
