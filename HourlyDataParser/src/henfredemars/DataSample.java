@@ -8,7 +8,7 @@ import java.util.Calendar;
 import org.junit.Test;
 
 //Single data point from one station at one hour
-public class DataSample implements DataSampleInterface, Serializable {
+public class DataSample implements DataSampleInterface, Serializable, Comparable<DataSample> {
 	
 	private static final long serialVersionUID = 0L;
 	private static final int none = -10101;
@@ -23,6 +23,16 @@ public class DataSample implements DataSampleInterface, Serializable {
 
 	public DataSample() {
 		//Nothing to do
+	}
+	
+	public DataSample(DataSample ds) {
+		this.station = ds.station;
+		this.temperature = ds.temperature;
+		this.humidity = ds.humidity;
+		this.windSpeed = ds.windSpeed;
+		this.pressure = ds.pressure;
+		this.rainfall = ds.rainfall;
+		this.date = ds.date;
 	}
 	
 	public void setStationId(String station) {
@@ -158,6 +168,11 @@ public class DataSample implements DataSampleInterface, Serializable {
 		assertTrue(ds.checkSample()==DataStatus.OUT_OF_RANGE_RAINFALL);
 		ds.setDate(null);
 		assertTrue(ds.checkSample()==DataStatus.MISSING_DATE);
+	}
+
+	@Override
+	public int compareTo(DataSample ds) {
+		return date.compareTo(ds.getDate());
 	}
 	
 }
