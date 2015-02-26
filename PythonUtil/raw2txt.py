@@ -8,7 +8,7 @@ DATA_FOLDER = "../../ftp.ncdc.noaa.gov/pub/data/noaa"
 def main():
   for sdir, dirs, files in os.walk(DATA_FOLDER):
     for file in files:
-      if not '.gz' in file:
+      if not '.gz' in file or '.txt' in file:
         continue
       ffile = os.path.join(sdir, file)
       print("Processing {}...".format(file))
@@ -22,7 +22,7 @@ def main():
       os.remove(ffile)
       print("Re-compressing file...")
       os.system('gzip --best {}'.format(ffile+'.txt'))
-      sleep(1) #Be nice
+      sleep(3) #Be nice
 
 if __name__=='__main__':
   print("I'm main!")
