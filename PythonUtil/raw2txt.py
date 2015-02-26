@@ -4,7 +4,6 @@ import os
 from time import sleep
 
 DATA_FOLDER = "../../ftp.ncdc.noaa.gov/pub/data/noaa"
-ISH_CLASSPATH = "../../ftp.ncdc.noaa.gov"
 
 def main():
   for sdir, dirs, files in os.walk(DATA_FOLDER):
@@ -17,10 +16,11 @@ def main():
       os.system('gunzip ' + ffile)
       print("Formatting {} into table...".format(file))
       os.system('java -classpath {} ishJava {} {}'.format(
-        ISH_CLASSPATH,ffile,ffile+'.txt'))
+        DATA_FOLDER,ffile.replace('.gz',''),ffile.replace('.gz','')
+        +'.txt'))
       print("Re-compressing file...")
       os.system('gzip --best {}'.format(ffile+'.txt'))
-      sleep(1) #Be nice
+      sleep(100) #Be nice
 
 if __name__=='__main__':
   print("I'm main!")
