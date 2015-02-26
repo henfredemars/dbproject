@@ -14,13 +14,15 @@ def main():
       print("Processing {}...".format(file))
       print("Unzipping {}...".format(file))
       os.system('gunzip ' + ffile)
+      file = file.replace('.gz','')
+      ffile = ffile.replace('.gz','')
       print("Formatting {} into table...".format(file))
       os.system('java -classpath {} ishJava {} {}'.format(
-        DATA_FOLDER,ffile.replace('.gz',''),ffile.replace('.gz','')
-        +'.txt'))
+        DATA_FOLDER,ffile,ffile+'.txt'))
+      os.remove(ffile)
       print("Re-compressing file...")
       os.system('gzip --best {}'.format(ffile+'.txt'))
-      sleep(100) #Be nice
+      sleep(1) #Be nice
 
 if __name__=='__main__':
   print("I'm main!")
