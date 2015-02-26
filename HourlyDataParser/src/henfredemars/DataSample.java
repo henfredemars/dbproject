@@ -14,11 +14,11 @@ public class DataSample implements DataSampleInterface, Serializable, Comparable
 	private static final int none = -10101;
 	
 	private String station;
-	private double temperature = none;
-	private double humidity = none;
-	private double windSpeed = none;
-	private double pressure = none;
-	private double rainfall = none;
+	private float temperature = none;
+	private float humidity = none;
+	private float windSpeed = none;
+	private float pressure = none;
+	private float rainfall = none;
 	private Calendar date = null;
 
 	public DataSample() {
@@ -39,27 +39,27 @@ public class DataSample implements DataSampleInterface, Serializable, Comparable
 		this.station = station;
 	}
 	
-	public void setTemperature(double tempInF) {
+	public void setTemperature(float tempInF) {
 		protectNone(tempInF);
 		this.temperature = tempInF;
 	}
 	
-	public void setHumidity(double relativeHumidity) {
-		protectNone(relativeHumidity);
-		this.humidity = relativeHumidity;
+	public void setHumidity(float humidity) {
+		protectNone(humidity);
+		this.humidity = humidity;
 	}
 	
-	public void setWindSpeed(double windSpeedInMPH) {
+	public void setWindSpeed(float windSpeedInMPH) {
 		protectNone(windSpeedInMPH);
 		this.windSpeed = windSpeedInMPH;
 	}
 	
-	public void setPressure(double seaLevelPressureInMillibars) {
+	public void setPressure(float seaLevelPressureInMillibars) {
 		protectNone(seaLevelPressureInMillibars);
 		this.pressure = seaLevelPressureInMillibars;
 	}
 	
-	public void setRainfall(double hourlyInches) {
+	public void setRainfall(float hourlyInches) {
 		protectNone(hourlyInches);
 		this.rainfall = hourlyInches;
 	}
@@ -72,23 +72,23 @@ public class DataSample implements DataSampleInterface, Serializable, Comparable
 		return station;
 	}
 	
-	public double getTemperature() {
+	public float getTemperature() {
 		return temperature;
 	}
 	
-	public double getHumidity() {
+	public float getHumidity() {
 		return humidity;
 	}
 	
-	public double getWindSpeed() {
+	public float getWindSpeed() {
 		return windSpeed;
 	}
 	
-	public double getPressure() {
+	public float getPressure() {
 		return pressure;
 	}
 	
-	public double getRainfall() {
+	public float getRainfall() {
 		return rainfall;
 	}
 	
@@ -134,7 +134,7 @@ public class DataSample implements DataSampleInterface, Serializable, Comparable
 		return true;
 	}
 	
-	private static void protectNone(double val) {
+	private static void protectNone(float val) {
 		if (val==none) throw new RuntimeException("DataSample - attempt to set reserved value");
 	}
 	
@@ -147,7 +147,7 @@ public class DataSample implements DataSampleInterface, Serializable, Comparable
 		ds.setStationId("XXXXX");
 		assertTrue(ds.checkSample()==DataStatus.MISSING_TEMPERATURE);
 		ds.setTemperature(60);
-		ds.setHumidity(0.5);
+		ds.setHumidity(0.5f);
 		ds.setWindSpeed(6);
 		assertTrue(ds.checkSample()==DataStatus.MISSING_PRESSURE);
 		ds.setPressure(1000);
