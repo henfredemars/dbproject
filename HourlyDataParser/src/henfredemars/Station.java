@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Station {
 
 	private ArrayList<DataSample> samples = null;
-	private double lat = 0;
-	private double lon = 0;
+	private float lat = 0;
+	private float lon = 0;
 	private String stationid;
 	
 	public Station(String id) {
@@ -14,16 +14,16 @@ public class Station {
 		stationid = id;
 	}
 	
-	public void setLatLon(double lat, double lon) {
+	public void setLatLon(float lat, float lon) {
 		this.lat = lat;
 		this.lon = lon;
 	}
 	
-	public double getLat() {
+	public float getLat() {
 		return lat;
 	}
 	
-	public double getLon() {
+	public float getLon() {
 		return lon;
 	}
 	
