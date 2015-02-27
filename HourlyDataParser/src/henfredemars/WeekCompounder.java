@@ -95,11 +95,11 @@ public class WeekCompounder {
 		windSpeed /= numSamples;
 		pressure /= numSamples;
 		rainfall /= numSamples;
-		ds.setTemperature(temperature);
-		ds.setHumidity(humidity);
-		ds.setWindSpeed(windSpeed);
-		ds.setPressure(pressure);
-		ds.setRainfall(rainfall);
+		ds.setTemperature((float) temperature);
+		ds.setHumidity((float) humidity);
+		ds.setWindSpeed((float) windSpeed);
+		ds.setPressure((float) pressure);
+		ds.setRainfall((float) rainfall);
 		return ds;
 	}
 

@@ -15,7 +15,7 @@ public class WeekCompounderTest {
 		for (int i = 0; i < 3; i++) {
 			DataSample ds = new DataSample();
 			ds.setTemperature(50);
-			ds.setHumidity(0.5);
+			ds.setHumidity(0.5f);
 			ds.setPressure(1000);
 			ds.setRainfall(1);
 			ds.setStationId(String.valueOf(i));
