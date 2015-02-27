@@ -1,7 +1,5 @@
 package henfredemars;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,8 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-
-import org.junit.Test;
 
 
 //Utility class for less-experienced Java programmers in our group
@@ -39,8 +35,8 @@ public class Util {
 		return sr;
 	}
 
-	//Write ArrayList<DataSample> to file
-	public static void writeFile(ArrayList<DataSample> data,String fileName) {
+	//Write ArrayList<String> to file
+	public static void writeFile(ArrayList<String> data,String fileName) {
 		FileOutputStream fOutStream = null;
 		ObjectOutputStream oos = null;
 		deleteIfExists(fileName);
@@ -116,27 +112,13 @@ public class Util {
 	}
 	
 	//Write ArrayList<DataSample> with default fileName
-	public static void writeFile(ArrayList<DataSample> data) {
-		writeFile(data,"samples.dat");
+	public static void writeFile(ArrayList<String> data) {
+		writeFile(data,"strings.dat");
 	}
 	
 	//Read ArrayList<DataSample> with default fileName
 	public static ArrayList<DataSample> readFile() {
 		return readFile("samples.dat");
-	}
-	
-	@Test
-	public void testFileIO() {
-		ArrayList<DataSample> data = new ArrayList<DataSample>();
-		DataSample ds = new DataSample();
-		data.add(ds);
-		writeFile(data);
-		File file = new File(System.getProperty("user.dir")+File.separator+"samples.dat");
-		assertTrue(file.exists());
-		ArrayList<DataSample> ands = readFile();
-		assertTrue(ands.get(0).equals(ds));
-		deleteIfExists("samples.dat");
-		assertFalse(file.exists());
 	}
 
 }
