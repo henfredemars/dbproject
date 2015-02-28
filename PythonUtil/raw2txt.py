@@ -21,8 +21,8 @@ def main():
         DATA_FOLDER,ffile,ffile+'.txt'))
       os.remove(ffile)
       print("Re-compressing file...")
-      os.system('gzip --best {}'.format(ffile+'.txt'))
-      sleep(3) #Be nice
+      os.system('gzip -5 {}'.format(ffile+'.txt'))
+      sleep(1.7) #Be nice
 
 if __name__=='__main__':
   print("I'm main!")
