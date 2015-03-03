@@ -62,7 +62,7 @@ public class DataCompiler {
 				}
 				totalNumberOfRecords++;
 				DataSample ds = new DataSample();
-				String[] elements = line.split(" ");
+				String[] elements = line.split(" +");
 				ds.setStationId(elements[0]);
 				Calendar date = Calendar.getInstance();
 				String dateStr = elements[2];
@@ -82,6 +82,7 @@ public class DataCompiler {
 					ds.setHumidity(Float.valueOf(elements[22]));
 					ds.setPressure(Float.valueOf(elements[23]));
 				} catch (NumberFormatException e) {
+					System.out.println(line);
 					System.out.println("Bad measurement discarded.");
 					numberOfBadRecords++;
 					continue; //Bad measurement
@@ -96,7 +97,7 @@ public class DataCompiler {
 					}
 				} else {
 					numberOfBadRecords++;
-					System.out.println("Bad measurement discarded.");
+					System.out.println("Bad measurement discarded: " + ds.checkSample());
 				}
 			}
 		}
