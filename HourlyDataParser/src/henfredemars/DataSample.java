@@ -111,7 +111,7 @@ public class DataSample implements DataSampleInterface, Serializable, Comparable
 		
 		if (temperature<-160 || temperature>160)
 			return DataStatus.OUT_OF_RANGE_TEMPERATURE;
-		if (humidity<0 || humidity>1)
+		if (humidity<-160 || humidity>160)
 			return DataStatus.OUT_OF_RANGE_HUMIDITY;
 		if (windSpeed<0 || windSpeed>400)
 			return DataStatus.OUT_OF_RANGE_WINDSPEED;
