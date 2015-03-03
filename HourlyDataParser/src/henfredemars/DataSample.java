@@ -2,7 +2,11 @@ package henfredemars;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.nio.ByteBuffer;
 import java.util.Calendar;
 
 import org.junit.Test;
@@ -168,6 +172,30 @@ public class DataSample implements DataSampleInterface, Serializable, Comparable
 		assertTrue(ds.checkSample()==DataStatus.OUT_OF_RANGE_RAINFALL);
 		ds.setDate(null);
 		assertTrue(ds.checkSample()==DataStatus.MISSING_DATE);
+	}
+	
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+		ByteBuffer bb = ByteBuffer.allocate(128+32);
+		bb.putFloat(temperature);
+		bb.putFloat(humidity);
+		bb.putFloat(windSpeed);
+		bb.putFloat(pressure);
+		bb.putFloat(rainfall);
+		oos.writeObject(station);
+		oos.writeObject(bb.array());
+		oos.writeObject(date);
+	}
+	
+	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+		ByteBuffer bb = ByteBuffer.allocate(128+32);
+		station = (String)ois.readObject();
+		bb.put((byte[])ois.readObject());
+		date = (Calendar)ois.readObject();
+		temperature = bb.getFloat();
+		humidity = bb.getFloat();
+		windSpeed = bb.getFloat();
+		pressure = bb.getFloat();
+		rainfall = bb.getFloat();
 	}
 
 	@Override
