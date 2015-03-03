@@ -119,6 +119,8 @@ public class DataSample implements DataSampleInterface, Serializable, Comparable
 			return DataStatus.OUT_OF_RANGE_PRESSURE;
 		if (rainfall<0 || rainfall>15)
 			return DataStatus.OUT_OF_RANGE_RAINFALL;
+		if (station.length()!=6 || station.equals("******") || station.equals("999999"))
+			return DataStatus.BAD_STATION;
 		
 		return DataStatus.ALL_GOOD;
 	}
