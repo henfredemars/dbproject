@@ -108,6 +108,11 @@ public class DataCompiler {
 	               		System.out.println("BadRecords:     " + numberOfBadRecords);
       	        		System.out.println("TotalRecords:   " + totalNumberOfRecords);
        		        	System.out.println("FilesProcessed: " + filesProcessed);
+       		        	try {
+       		        		oos.reset();
+       		        	} catch (IOException e) {
+       		        		e.printStackTrace();
+       		        	}
 			}
 		}
 		System.out.println("GoodRecords:    " + numberOfGoodRecords);
