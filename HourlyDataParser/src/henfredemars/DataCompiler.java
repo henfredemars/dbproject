@@ -78,6 +78,7 @@ public class DataCompiler {
 					ds.setRainfall(0f);
 				}
 				try {
+					ds.setWindSpeed(Float.valueOf(elements[4]));
 					ds.setTemperature(Float.valueOf(elements[21]));
 					ds.setHumidity(Float.valueOf(elements[22]));
 					ds.setPressure(Float.valueOf(elements[25]));
