@@ -80,11 +80,12 @@ public class DataCompiler {
 				try {
 					ds.setTemperature(Float.valueOf(elements[21]));
 					ds.setHumidity(Float.valueOf(elements[22]));
-					ds.setPressure(Float.valueOf(elements[23]));
+					ds.setPressure(Float.valueOf(elements[24]));
 				} catch (NumberFormatException e) {
-					System.out.println(line);
-					System.out.println("Bad measurement discarded.");
 					numberOfBadRecords++;
+					if (totalNumberOfRecords % 100000!=0) continue;
+					System.out.println("Line missing required data.");
+					System.out.println(line);
 					continue; //Bad measurement
 				}
 				if (ds.checkSample()==DataStatus.ALL_GOOD) {
@@ -97,8 +98,15 @@ public class DataCompiler {
 					}
 				} else {
 					numberOfBadRecords++;
-					System.out.println("Bad measurement discarded: " + ds.checkSample());
+					if (totalNumberOfRecords % 100000!=0) continue;
+					System.out.println("Bad measurement discarded DS: " + ds.checkSample());
 				}
+			}
+			if (filesProcessed%100==0) {
+				System.out.println("GoodRecords:    " + numberOfGoodRecords);
+	               		System.out.println("BadRecords:     " + numberOfBadRecords);
+      	        		System.out.println("TotalRecords:   " + totalNumberOfRecords);
+       		        	System.out.println("FilesProcessed: " + filesProcessed);
 			}
 		}
 		System.out.println("GoodRecords:    " + numberOfGoodRecords);
