@@ -113,12 +113,14 @@ public class DataCompiler {
 				System.out.println("GoodRecords:    " + numberOfGoodRecords);
 	               		System.out.println("BadRecords:     " + numberOfBadRecords);
       	        		System.out.println("TotalRecords:   " + totalNumberOfRecords);
+				System.out.println("Stations:       " + stationSet.size());
        		        	System.out.println("FilesProcessed: " + filesProcessed);
 			}
 		}
 		System.out.println("GoodRecords:    " + numberOfGoodRecords);
 		System.out.println("BadRecords:     " + numberOfBadRecords);
 		System.out.println("TotalRecords:   " + totalNumberOfRecords);
+		System.out.println("Stations:       " + stationSet.size());
 		System.out.println("FilesProcessed: " + filesProcessed);
 		try {
 			oos.close();
@@ -126,5 +128,5 @@ public class DataCompiler {
 			//Do nothing
 		}
 	}
-	
+
 }
