@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Calendar;
 import java.util.List;
+import java.util.zip.GZIPOutputStream;
 
 //Parse and compile data samples into a single file
 //Input files must be in text form (i.e. not compressed)
@@ -18,8 +19,13 @@ public class DataCompiler {
 		File directory = new File(args[0]);
 		File outputFile = new File(args[1]);
 		File[] files = directory.listFiles();
+		long numberOfGoodRecords = 0;
+		long numberOfBadRecords = 0;
+		long totalNumberOfRecords = 0;
+		long filesProcessed = 0;
 		//Prepare output file
 		FileOutputStream fOutStream = null;
+		GZIPOutputStream goos = null;
 		ObjectOutputStream oos = null;
 		try {
 			fOutStream = new FileOutputStream(outputFile);
@@ -28,13 +34,20 @@ public class DataCompiler {
 			e1.printStackTrace();
 		}
 		try {
-			oos = new ObjectOutputStream(fOutStream);
+			goos = new GZIPOutputStream(fOutStream);
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		try {
+			oos = new ObjectOutputStream(goos);
 		} catch (IOException e1) {
 			System.out.println("DataCompiler - error writing file");
 			e1.printStackTrace();
 		}
 		//Process files
 		for (File file: files) {
+			filesProcessed++;
 			System.out.println("Processing file: " + file.getName());
 			List<String> lines = null;
 			try {
@@ -47,6 +60,7 @@ public class DataCompiler {
 				if (line.contains("WBAN")) {
 					continue;
 				}
+				totalNumberOfRecords++;
 				DataSample ds = new DataSample();
 				String[] elements = line.split(" ");
 				ds.setStationId(elements[0]);
@@ -69,20 +83,27 @@ public class DataCompiler {
 					ds.setPressure(Float.valueOf(elements[23]));
 				} catch (NumberFormatException e) {
 					System.out.println("Bad measurement discarded.");
+					numberOfBadRecords++;
 					continue; //Bad measurement
 				}
 				if (ds.checkSample()==DataStatus.ALL_GOOD) {
 					try {
+						numberOfGoodRecords++;
 						oos.writeObject(ds);
 					} catch (IOException e) {
 						System.out.println("DataCompiler - error writing object");
 						e.printStackTrace();
 					}
 				} else {
+					numberOfBadRecords++;
 					System.out.println("Bad measurement discarded.");
 				}
 			}
 		}
+		System.out.println("GoodRecords:    " + numberOfGoodRecords);
+		System.out.println("BadRecords:     " + numberOfBadRecords);
+		System.out.println("TotalRecords:   " + totalNumberOfRecords);
+		System.out.println("FilesProcessed: " + filesProcessed);
 		try {
 			oos.close();
 		} catch (IOException e) {
