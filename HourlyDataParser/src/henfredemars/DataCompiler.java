@@ -80,7 +80,7 @@ public class DataCompiler {
 				try {
 					ds.setTemperature(Float.valueOf(elements[21]));
 					ds.setHumidity(Float.valueOf(elements[22]));
-					ds.setPressure(Float.valueOf(elements[24]));
+					ds.setPressure(Float.valueOf(elements[25]));
 				} catch (NumberFormatException e) {
 					numberOfBadRecords++;
 					if (totalNumberOfRecords % 100000!=0) continue;
