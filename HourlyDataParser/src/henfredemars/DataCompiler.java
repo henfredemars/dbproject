@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.util.Calendar;
 import java.util.List;
 import java.util.zip.GZIPOutputStream;
+import java.util.HashSet;
 
 //Parse and compile data samples into a single file
 //Input files must be in text form (i.e. not compressed)
@@ -23,6 +24,7 @@ public class DataCompiler {
 		long numberOfBadRecords = 0;
 		long totalNumberOfRecords = 0;
 		long filesProcessed = 0;
+		HashSet<String> stationSet = new HashSet<String>();
 		//Prepare output file
 		FileOutputStream fOutStream = null;
 		GZIPOutputStream goos = null;
@@ -93,6 +95,10 @@ public class DataCompiler {
 					try {
 						numberOfGoodRecords++;
 						oos.writeObject(ds);
+						stationSet.add(ds.getStationId());
+						if (numberOfGoodRecords % 1000==0) {
+							oos.reset();
+						}
 					} catch (IOException e) {
 						System.out.println("DataCompiler - error writing object");
 						e.printStackTrace();
@@ -103,16 +109,11 @@ public class DataCompiler {
 					System.out.println("Bad measurement discarded DS: " + ds.checkSample());
 				}
 			}
-			if (filesProcessed%100==0) {
+			if (filesProcessed%25==0) {
 				System.out.println("GoodRecords:    " + numberOfGoodRecords);
 	               		System.out.println("BadRecords:     " + numberOfBadRecords);
       	        		System.out.println("TotalRecords:   " + totalNumberOfRecords);
        		        	System.out.println("FilesProcessed: " + filesProcessed);
-       		        	try {
-       		        		oos.reset();
-       		        	} catch (IOException e) {
-       		        		e.printStackTrace();
-       		        	}
 			}
 		}
 		System.out.println("GoodRecords:    " + numberOfGoodRecords);
