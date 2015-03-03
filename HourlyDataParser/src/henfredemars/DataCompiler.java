@@ -65,9 +65,17 @@ public class DataCompiler {
 				totalNumberOfRecords++;
 				DataSample ds = new DataSample();
 				String[] elements = line.split(" +");
+				if (elements.length<26) {
+					numberOfBadRecords++;
+					continue;
+				}
 				ds.setStationId(elements[0]);
 				Calendar date = Calendar.getInstance();
 				String dateStr = elements[2];
+				if (dateStr.length()<12) {
+					numberOfBadRecords++;
+					continue;
+				}
 				date.set(Calendar.YEAR, Integer.valueOf(dateStr.substring(0,4)));
 				date.set(Calendar.MONTH, Integer.valueOf(dateStr.substring(4,6))-1);
 				date.set(Calendar.DAY_OF_MONTH, Integer.valueOf(dateStr.substring(6,8)));
