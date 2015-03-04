@@ -32,12 +32,20 @@ public class StationLocator {
 				longitude *= -1;
 			}
 			float[] farray = {latitude,longitude};
-			lookupTable.put(f[i].split(" ")[0], farray);
+			lookupTable.put(f[i].split(" +")[0], farray);
 		}
 	}
 	
 	public float[] getLatLon(String stationid) {
 		return lookupTable.get(stationid);
+	}
+	
+	public boolean inTargetArea(String stationid) {
+		if (!knowsStation(stationid)) return false;
+		float[] latlon = getLatLon(stationid);
+		boolean latInRange = ((latlon[0] < -73) && (latlon[0] > -135));
+		boolean lonInRange = ((latlon[1] < 50) && (latlon[1] > 23));
+		return latInRange && lonInRange;
 	}
 	
 	public boolean knowsStation(String stationid) {

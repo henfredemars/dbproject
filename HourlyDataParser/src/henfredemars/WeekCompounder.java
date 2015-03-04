@@ -16,14 +16,6 @@ public class WeekCompounder {
 		populateStations();
 	}
 	
-	public ArrayList<Station> getStations() {
-		ArrayList<Station> res = new ArrayList<Station>();
-		for (Station s: stations.values()) {
-			res.add(s);
-		}
-		return res;
-	}
-	
 	private void populateStations() {
 		//Make list of IDs and Stations from IDs
 		for (DataSample ds: hourData) {
@@ -44,6 +36,14 @@ public class WeekCompounder {
 			}
 		}
 		return true;
+	}
+	
+	public ArrayList<Station> getStations() {
+		ArrayList<Station> res = new ArrayList<Station>();
+		for (String station: stations.keySet()) {
+			res.add(stations.get(station));
+		}
+		return res;
 	}
 	
 	public void compoundDataByWeek(Calendar start, Calendar end) {
