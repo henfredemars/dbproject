@@ -21,16 +21,20 @@ public class StationLocator {
 			throw new RuntimeException("StationLocator - table not found");
 		}
 		for (int i = tableStart; !f[i].startsWith("997000"); i++) {
-			String latString = f[i].substring(60,64);
-			String lonString = f[i].substring(66,71);
+			String latString = f[i].substring(59,63);
+			String lonString = f[i].substring(65,70);
+			if (latString.trim().isEmpty()) continue;
+			if (lonString.trim().isEmpty()) continue;
 			float latitude = Integer.valueOf(latString)/100.0f;
 			float longitude = Integer.valueOf(lonString)/100.0f;
-			if (f[i].charAt(64)=='S') {
+			if (f[i].charAt(63)=='S') {
 				latitude *= -1;
 			}
-			if (f[i].charAt(71)=='W') {
+			if (f[i].charAt(70)=='W') {
 				longitude *= -1;
 			}
+			if (f[i].charAt(63)==' ') continue;
+			if (f[i].charAt(70)==' ') continue;
 			float[] farray = {latitude,longitude};
 			lookupTable.put(f[i].split(" +")[0], farray);
 		}
