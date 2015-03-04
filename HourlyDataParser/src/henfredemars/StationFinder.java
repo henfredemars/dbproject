@@ -85,7 +85,7 @@ public class StationFinder {
 			if (stations.containsKey(ds.getStationId())) {
 				stations.put(ds.getStationId(),stations.get(ds.getStationId())+1);
 			} else {
-				stations.put(ds.getStationId(),0L);
+				stations.put(ds.getStationId(),1L);
 			}
 		}
 		
