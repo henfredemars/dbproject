@@ -19,6 +19,7 @@ public class StationFinder {
 
 	public static void main(String[] args) {
 		//Setup IO
+		System.out.println("Enumerating stations from location database...");
 		StationLocator sl = new StationLocator(args[1]);
 		FileInputStream fin = null;
 		GZIPInputStream gis = null;
@@ -62,10 +63,15 @@ public class StationFinder {
 		}
 		
 		//Read DataSample input
+		long sampleLocation = 0;
 		while (true) {
 			DataSample ds = null;
 			try {
 				ds = (DataSample) ois.readObject();
+				sampleLocation++;
+				if (sampleLocation%1000==0) {
+					System.out.println("Read Sample: " + sampleLocation);
+				}
 			} catch (IOException e) {
 				//Done reading
 				break;
@@ -87,6 +93,7 @@ public class StationFinder {
 		for (String station: stations.keySet()) {
 			stationCounts.add(stations.get(station));
 		}
+		System.out.println("Sorting stations by number of samples...");
 		Collections.sort(stationCounts);
 		long median = stationCounts.get(stationCounts.size()/2);
 		System.out.println("Median is " + median + " samples per station.");
