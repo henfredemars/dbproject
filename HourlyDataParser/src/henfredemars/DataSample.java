@@ -1,15 +1,11 @@
 package henfredemars;
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.Calendar;
-
-import org.junit.Test;
 
 //Single data point from one station at one hour
 public class DataSample implements DataSampleInterface, Serializable, Comparable<DataSample> {
@@ -145,37 +141,6 @@ public class DataSample implements DataSampleInterface, Serializable, Comparable
 	}
 	
 	
-	@Test
-	public void testDataChecking() {
-		DataSample ds = new DataSample();
-		assertTrue(ds.equals(ds));
-		assertTrue(ds.checkSample()==DataStatus.MISSING_STATION);
-		ds.setStationId("XXXXX");
-		assertTrue(ds.checkSample()==DataStatus.MISSING_TEMPERATURE);
-		ds.setTemperature(60);
-		ds.setHumidity(0.5f);
-		ds.setWindSpeed(6);
-		assertTrue(ds.checkSample()==DataStatus.MISSING_PRESSURE);
-		ds.setPressure(1000);
-		assertTrue(ds.checkSample()==DataStatus.MISSING_RAINFALL);
-		try {
-			ds.setPressure(none);
-			fail("Should fail to set value to none");
-		} catch (RuntimeException e) {
-			//Good, good
-		}
-		assertTrue(ds.getPressure()==1000);
-		Calendar date = Calendar.getInstance();
-		date.set(1901,Calendar.DECEMBER,1,0,0);
-		ds.setDate(date);
-		ds.setRainfall(0);
-		assertTrue(ds.checkSample()==DataStatus.ALL_GOOD);
-		ds.setRainfall(-1);
-		assertTrue(ds.checkSample()==DataStatus.OUT_OF_RANGE_RAINFALL);
-		ds.setDate(null);
-		assertTrue(ds.checkSample()==DataStatus.MISSING_DATE);
-	}
-	
 	private void writeObject(ObjectOutputStream oos) throws IOException {
 		ByteBuffer bb = ByteBuffer.allocate(128+32);
 		bb.putFloat(temperature);
@@ -193,6 +158,7 @@ public class DataSample implements DataSampleInterface, Serializable, Comparable
 		station = (String)ois.readObject();
 		bb.put((byte[])ois.readObject());
 		date = (Calendar)ois.readObject();
+		bb.position(0);
 		temperature = bb.getFloat();
 		humidity = bb.getFloat();
 		windSpeed = bb.getFloat();
