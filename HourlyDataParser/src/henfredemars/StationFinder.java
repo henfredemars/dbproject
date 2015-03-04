@@ -3,55 +3,108 @@ package henfredemars;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.zip.GZIPInputStream;
 
 //Find the stations that exist in the database and its intersection with a set of sample stations
+//climate_data.dat, stations.txt, output
 public class StationFinder {
 
 	public static void main(String[] args) {
 		//Setup IO
-		StationLocator sl = new StationLocator("StationData1999.txt");
+		StationLocator sl = new StationLocator(args[1]);
 		FileInputStream fin = null;
+		GZIPInputStream gis = null;
 		ObjectInputStream ois = null;
-		HashSet<String> stations = new HashSet<String>();
+		ObjectOutputStream oos = null;
+		FileOutputStream fos = null;
+		HashMap<String,Long> stations = new HashMap<String,Long>();
+		
+		//Output
+		try {
+			fos = new FileOutputStream(new File(args[2]));
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			oos = new ObjectOutputStream(fos);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		//Input
 		try {
 			fin = new FileInputStream(new File(args[0]));
 		} catch (FileNotFoundException e) {
-			System.out.println("StationFinder - could not open file");
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
-			ois = new ObjectInputStream(fin);
+			gis = new GZIPInputStream(fin);
 		} catch (IOException e) {
-			System.out.println("StationFinder - could not open file");
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//Filter samples for their stations that we can identify
+		try {
+			ois = new ObjectInputStream(gis);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Read DataSample input
 		while (true) {
 			DataSample ds = null;
 			try {
-				ds = (DataSample)ois.readObject();
+				ds = (DataSample) ois.readObject();
 			} catch (IOException e) {
-				//End of file, we hope
-				try {
-					ois.close();
-					break;
-				} catch (IOException e1) {
-					//Do nothing
-				}
+				//Done reading
 				break;
 			} catch (ClassNotFoundException e) {
-				//Shouldn't happen
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if (sl.knowsStation(ds.getStationId())) {
-				stations.add(ds.getStationId());
+			if (!sl.knowsStation(ds.getStationId())) continue;
+			if (!sl.inTargetArea(ds.getStationId())) continue;
+			if (stations.containsKey(ds.getStationId())) {
+				stations.put(ds.getStationId(),stations.get(ds.getStationId())+1);
+			} else {
+				stations.put(ds.getStationId(),0L);
 			}
 		}
+		
+		//Remove stations with few samples
+		ArrayList<Long> stationCounts = new ArrayList<Long>();
+		for (String station: stations.keySet()) {
+			stationCounts.add(stations.get(station));
+		}
+		Collections.sort(stationCounts);
+		long median = stationCounts.get(stationCounts.size()/2);
+		System.out.println("Median is " + median + " samples per station.");
+		for (Iterator<String> iter = stations.keySet().iterator();iter.hasNext();) {
+			String station = iter.next();
+			if (stations.get(station) < median) {
+				iter.remove();
+			}
+		}
+		System.out.println("Found " + stations.size() + " stations meeting criteria.");
+		
 		//Write out list of known stations
-		Util.writeFile(new ArrayList<String>(stations),"stationfilter.dat");
+		try {
+			oos.writeObject(stations.keySet().toArray(new String[0]));
+			oos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
