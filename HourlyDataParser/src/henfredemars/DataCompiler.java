@@ -84,10 +84,6 @@ public class DataCompiler {
 				ds.setDate(date);
 				try {
 					ds.setRainfall(Float.valueOf(elements[28].replace('T','1')));
-				} catch (NumberFormatException e) {
-					ds.setRainfall(0f);
-				}
-				try {
 					ds.setWindSpeed(Float.valueOf(elements[4]));
 					ds.setTemperature(Float.valueOf(elements[21]));
 					ds.setHumidity(Float.valueOf(elements[22]));
