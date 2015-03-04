@@ -81,9 +81,13 @@ public class DataCompiler {
 				date.set(Calendar.DAY_OF_MONTH, Integer.valueOf(dateStr.substring(6,8)));
 				date.set(Calendar.HOUR_OF_DAY, Integer.valueOf(dateStr.substring(8,10)));
 				date.set(Calendar.MINUTE, Integer.valueOf(dateStr.substring(10,12)));
+				if (date.get(Calendar.MINUTE)!=0) {
+					numberOfBadRecords++;
+					continue;
+				}
 				ds.setDate(date);
 				try {
-					ds.setRainfall(Float.valueOf(elements[28].replace('T','1')));
+					ds.setRainfall(Float.valueOf(elements[28].replace('T',' ').split(" ")[0]));
 					ds.setWindSpeed(Float.valueOf(elements[4]));
 					ds.setTemperature(Float.valueOf(elements[21]));
 					ds.setHumidity(Float.valueOf(elements[22]));
