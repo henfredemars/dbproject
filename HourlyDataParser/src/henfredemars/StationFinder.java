@@ -79,7 +79,7 @@ public class StationFinder {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if (!ds.checkSample()==DataStatus.ALL_GOOD) continue;
+			if (!(ds.checkSample()==DataStatus.ALL_GOOD)) continue;
 			if (!sl.knowsStation(ds.getStationId())) continue;
 			if (!sl.inTargetArea(ds.getStationId())) continue;
 			if (stations.containsKey(ds.getStationId())) {
