@@ -83,7 +83,7 @@ public class DataCompiler {
 				date.set(Calendar.MINUTE, Integer.valueOf(dateStr.substring(10,12)));
 				ds.setDate(date);
 				try {
-					ds.setRainfall(Float.valueOf(elements[28]));
+					ds.setRainfall(Float.valueOf(elements[28].replace('T','1')));
 				} catch (NumberFormatException e) {
 					ds.setRainfall(0f);
 				}
