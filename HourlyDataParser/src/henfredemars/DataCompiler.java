@@ -17,6 +17,7 @@ import java.util.HashSet;
 public class DataCompiler {
 
 	public static void main(String[] args) {
+		StationLocator sl = new StationLocator(args[2]);
 		File directory = new File(args[0]);
 		File outputFile = new File(args[1]);
 		File[] files = directory.listFiles();
@@ -49,8 +50,8 @@ public class DataCompiler {
 		}
 		//Process files
 		for (File file: files) {
+			if (!sl.inTargetArea(file.getName().split("-")[0])) continue;
 			filesProcessed++;
-			System.out.println("Processing file: " + file.getName());
 			List<String> lines = null;
 			try {
 				lines = Files.readAllLines(file.toPath(),StandardCharsets.UTF_8);
@@ -65,7 +66,7 @@ public class DataCompiler {
 				totalNumberOfRecords++;
 				DataSample ds = new DataSample();
 				String[] elements = line.split(" +");
-				if (elements.length<26) {
+				if (elements.length<28) {
 					numberOfBadRecords++;
 					continue;
 				}
@@ -84,15 +85,23 @@ public class DataCompiler {
 				ds.setDate(date);
 				try {
 					ds.setRainfall(Float.valueOf(elements[28].replace('T',' ').split(" ")[0]));
+				} catch (NumberFormatException e) {
+					if (!elements[29].contains("*") || elements[29].contains("T")) {
+						ds.setRainfall(0f);
+					} else if (!elements[30].contains("*") || elements[30].contains("T")) {
+						ds.setRainfall(0f);
+					} else {
+						numberOfBadRecords++;
+						continue;
+					}
+				}
+				try {
 					ds.setWindSpeed(Float.valueOf(elements[4]));
 					ds.setTemperature(Float.valueOf(elements[21]));
 					ds.setHumidity(Float.valueOf(elements[22]));
 					ds.setPressure(Float.valueOf(elements[25]));
 				} catch (NumberFormatException e) {
 					numberOfBadRecords++;
-					if (totalNumberOfRecords % 100000!=0) continue;
-					System.out.println("Line missing required data.");
-					System.out.println(line);
 					continue; //Bad measurement
 				}
 				if (ds.checkSample()==DataStatus.ALL_GOOD) {
@@ -114,6 +123,7 @@ public class DataCompiler {
 				}
 			}
 			if (filesProcessed%25==0) {
+				System.out.println("-------------------------------");
 				System.out.println("GoodRecords:    " + numberOfGoodRecords);
 	               		System.out.println("BadRecords:     " + numberOfBadRecords);
       	        		System.out.println("TotalRecords:   " + totalNumberOfRecords);
@@ -121,6 +131,7 @@ public class DataCompiler {
        		        	System.out.println("FilesProcessed: " + filesProcessed);
 			}
 		}
+		System.out.println("-------------------------------");
 		System.out.println("GoodRecords:    " + numberOfGoodRecords);
 		System.out.println("BadRecords:     " + numberOfBadRecords);
 		System.out.println("TotalRecords:   " + totalNumberOfRecords);
