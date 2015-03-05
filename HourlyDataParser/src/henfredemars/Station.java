@@ -1,9 +1,12 @@
 package henfredemars;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Station {
+public class Station implements Serializable{
 
+	private static final long serialVersionUID = 0L;
+	
 	private ArrayList<DataSample> samples = null;
 	private float lat = 0;
 	private float lon = 0;
