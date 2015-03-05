@@ -70,7 +70,7 @@ public class StationFinder {
 				ds = (DataSample) ois.readObject();
 				sampleLocation++;
 				if (sampleLocation%1000==0) {
-					System.out.println("Read Sample: " + sampleLocation);
+					System.out.println("Scanning Sample: " + sampleLocation);
 				}
 			} catch (IOException e) {
 				//Done reading
@@ -94,6 +94,7 @@ public class StationFinder {
 		for (String station: stations.keySet()) {
 			stationCounts.add(stations.get(station));
 		}
+		System.out.println(stations.size() + " stations found.");
 		System.out.println("Sorting stations by number of samples...");
 		Collections.sort(stationCounts);
 		long median = stationCounts.get(stationCounts.size()/2);
