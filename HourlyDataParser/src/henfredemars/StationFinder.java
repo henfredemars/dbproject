@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ public class StationFinder {
 		System.out.println("Enumerating stations from location database...");
 		StationLocator sl = new StationLocator(args[1]);
 		FileInputStream fin = null;
+		BufferedInputStream bis = null;
 		GZIPInputStream gis = null;
 		ObjectInputStream ois = null;
 		ObjectOutputStream oos = null;
@@ -50,7 +52,7 @@ public class StationFinder {
 			e.printStackTrace();
 		}
 		try {
-			gis = new GZIPInputStream(fin);
+			gis = new GZIPInputStream(new BufferedInputStream(fin));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
