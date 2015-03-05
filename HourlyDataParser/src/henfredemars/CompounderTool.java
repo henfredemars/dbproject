@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.zip.GZIPInputStream;
@@ -151,7 +152,7 @@ public class CompounderTool {
 		}
 		GZIPInputStream gis = null;
 		try {
-			gis = new GZIPInputStream(fis);
+			gis = new GZIPInputStream(new BufferedInputStream(fis));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
