@@ -61,8 +61,10 @@ public class WeekCompounder {
 						thisWeek.add(ds);
 					}
 				}
-				DataSample sum = compressWeek(thisWeek);
-				newStationData.add(sum);
+				if (!thisWeek.isEmpty()) {
+					DataSample sum = compressWeek(thisWeek);
+					newStationData.add(sum);
+				}
 				s = (Calendar) e.clone();
 				e.add(Calendar.WEEK_OF_YEAR, 1);
 			}
