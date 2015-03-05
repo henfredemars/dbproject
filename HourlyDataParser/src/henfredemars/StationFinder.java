@@ -23,7 +23,6 @@ public class StationFinder {
 		System.out.println("Enumerating stations from location database...");
 		StationLocator sl = new StationLocator(args[1]);
 		FileInputStream fin = null;
-		BufferedInputStream bis = null;
 		GZIPInputStream gis = null;
 		ObjectInputStream ois = null;
 		ObjectOutputStream oos = null;
