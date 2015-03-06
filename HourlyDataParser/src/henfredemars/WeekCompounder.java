@@ -51,7 +51,7 @@ public class WeekCompounder {
 			Station st = stations.get(stationid);
 			Calendar s = (Calendar) start.clone();
 			Calendar e = (Calendar) start.clone();
-			e.add(Calendar.WEEK_OF_YEAR, 1);
+			e.add(Calendar.DAY_OF_YEAR, 7);
 			ArrayList<DataSample> stationData = st.getSamples();
 			ArrayList<DataSample> newStationData = new ArrayList<DataSample>();
 			while (s.before(end)) {
@@ -66,7 +66,7 @@ public class WeekCompounder {
 					newStationData.add(sum);
 				}
 				s = (Calendar) e.clone();
-				e.add(Calendar.WEEK_OF_YEAR, 1);
+				e.add(Calendar.DAY_OF_YEAR, 7);
 			}
 			st.setSamples(newStationData);
 		}
