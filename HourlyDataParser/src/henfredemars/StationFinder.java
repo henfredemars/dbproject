@@ -7,12 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.zip.GZIPInputStream;
+import java.io.BufferedInputStream;
 
 //Find the stations that exist in the database and its intersection with a set of sample stations
 //climate_data.dat, stations.txt, output
@@ -23,6 +23,7 @@ public class StationFinder {
 		System.out.println("Enumerating stations from location database...");
 		StationLocator sl = new StationLocator(args[1]);
 		FileInputStream fin = null;
+		BufferedInputStream bis = null;
 		GZIPInputStream gis = null;
 		ObjectInputStream ois = null;
 		ObjectOutputStream oos = null;
@@ -50,8 +51,9 @@ public class StationFinder {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		bis = new BufferedInputStream(fin);
 		try {
-			gis = new GZIPInputStream(new BufferedInputStream(fin));
+			gis = new GZIPInputStream(bis);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,7 +72,7 @@ public class StationFinder {
 			try {
 				ds = (DataSample) ois.readObject();
 				sampleLocation++;
-				if (sampleLocation%1000==0) {
+				if (sampleLocation%1000000==0) {
 					System.out.println("Scanning Sample: " + sampleLocation);
 				}
 			} catch (IOException e) {
@@ -98,8 +100,8 @@ public class StationFinder {
 		System.out.println(stations.size() + " stations found.");
 		System.out.println("Sorting stations by number of samples...");
 		Collections.sort(stationCounts);
-		long median = stationCounts.get(stationCounts.size()/2);
-		System.out.println("Median is " + median + " samples per station.");
+		long median = stationCounts.get((int)(stationCounts.size()*0.7));
+		System.out.println("Median is about " + median + " samples per station.");
 		for (Iterator<String> iter = stations.keySet().iterator();iter.hasNext();) {
 			String station = iter.next();
 			if (stations.get(station) < median) {
@@ -110,7 +112,7 @@ public class StationFinder {
 		
 		//Write out list of known stations
 		try {
-			oos.writeObject(stations.keySet().toArray(new String[0]));
+			oos.writeObject(new ArrayList<String>(stations.keySet()));
 			oos.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
